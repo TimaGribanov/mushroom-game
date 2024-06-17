@@ -42,6 +42,8 @@ export class Game extends Scene {
     }
 
     create() {
+        this.input.addPointer(2)
+        
         if (this.sys.game.device.os.desktop) {
             console.log("desktop")
         } else {
