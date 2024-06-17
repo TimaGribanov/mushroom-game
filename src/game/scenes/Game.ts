@@ -15,6 +15,9 @@ export class Game extends Scene {
     gameHeight: integer
     isMovingRight: boolean
     isMovingLeft: boolean
+    left: Phaser.Input.Keyboard.Key
+    right: Phaser.Input.Keyboard.Key
+    up: Phaser.Input.Keyboard.Key
 
     constructor() {
         super('Game')
@@ -32,6 +35,10 @@ export class Game extends Scene {
 
         this.isMovingLeft = false
         this.isMovingRight = false
+
+        this.left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
+        this.right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
+        this.up = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
     }
 
     create() {
@@ -120,21 +127,19 @@ export class Game extends Scene {
         this.physics.add.collider(this.enemy, ground)
         this.physics.add.collider(this.player, this.enemy, hitEnemy, null, this)
 
-        this.keys = this.input.keyboard.addKeys('W,S,A,D')
-
         EventBus.emit('current-scene-ready', this)
     }
 
     update() {
-        if (this.cursors.left.isDown || this.keys.A.isDown || this.isMovingLeft) {
+        if (this.cursors.left.isDown || this.left.isDown || this.isMovingLeft) {
             this.player.setVelocityX(-400)
-        } else if (this.cursors.right.isDown || this.keys.D.isDown || this.isMovingRight) {
+        } else if (this.cursors.right.isDown || this.right.isDown || this.isMovingRight) {
             this.player.setVelocityX(400)
         } else {
             this.player.setVelocityX(0)
         }
 
-        if ((this.cursors.up.isDown || this.keys.W.isDown) && this.player.body.touching.down) {
+        if ((this.cursors.up.isDown || this.up.isDown) && this.player.body.touching.down) {
             this.player.setVelocityY(-330)
         }
     }
