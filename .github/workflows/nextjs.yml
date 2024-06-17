@@ -28,9 +28,6 @@ jobs:
   # Build job
   build:
     runs-on: ubuntu-latest
-    environment:
-      name: GitHub Pages
-      url: https://timagribanov.com/mushroom-game
     steps:
       - name: Checkout
         uses: actions/checkout@v4
