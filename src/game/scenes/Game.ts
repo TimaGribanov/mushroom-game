@@ -15,6 +15,7 @@ export class Game extends Scene {
     gameHeight: integer
     isMovingRight: boolean
     isMovingLeft: boolean
+    isMovingUp: boolean
     left: Phaser.Input.Keyboard.Key
     right: Phaser.Input.Keyboard.Key
     up: Phaser.Input.Keyboard.Key
@@ -35,6 +36,7 @@ export class Game extends Scene {
 
         this.isMovingLeft = false
         this.isMovingRight = false
+        this.isMovingUp = false
 
         this.left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
         this.right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
@@ -97,7 +99,8 @@ export class Game extends Scene {
                 .setOrigin(0.5)
                 .setDepth(100)
                 .setInteractive()
-                .on('pointerover', () => this.player.setVelocityY(-330))
+                .on('pointerdown', () => this.isMovingUp = true)
+                .on('pointerup', () => this.isMovingUp = false)
         }
 
         this.player = this.physics.add.sprite(64, this.gameHeight - 112, 'shroom')
@@ -141,7 +144,7 @@ export class Game extends Scene {
             this.player.setVelocityX(0)
         }
 
-        if ((this.cursors.up.isDown || this.up.isDown) && this.player.body.touching.down) {
+        if ((this.cursors.up.isDown || this.up.isDown || this.isMovingUp) && this.player.body.touching.down) {
             this.player.setVelocityY(-330)
         }
     }
